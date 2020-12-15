@@ -1,0 +1,18 @@
+
+---Table for Users/Customers---
+
+create table customers (
+custID varchar(95),
+username varchar(65) not null,
+email varchar(30) not null,
+password varchar(100) not null,
+constraint pk_cust primary key(custID),
+constraint unique_cust_username unique(username),
+constraint unique_cust_email unique(email)
+);
+
+
+---Function to create the custID---
+CREATE FUNCTION createCustID (username varchar(65), email varchar(30))
+returns varchar(95) deterministic
+RETURN CONCAT(username, email);
