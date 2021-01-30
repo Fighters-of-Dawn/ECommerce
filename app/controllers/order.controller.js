@@ -9,7 +9,7 @@ exports.create = (req, res) => {
     });
   }
 
-const order = new Order({
+  const order = new Order({
     orderID: req.body.orderID,
     userID: req.body.userID,
     address: req.body.address,
@@ -18,7 +18,7 @@ const order = new Order({
     delievered: req.body.delievered
   });
 
-Order.create(order, (err, data) => {
+  Order.create(order, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -27,4 +27,32 @@ Order.create(order, (err, data) => {
     else res.send(data);
   });
 
+};
+
+exports.findAll = (req, res) => {
+   Order.getAll((err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving orders."
+      });
+    else res.send(data);
+  });
+};
+
+// Find a single Customer with a customerId
+exports.findOne = (req, res) => {
+   Order.findByOrderID(req.params.orderID, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Order with id ${req.params.username}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Order with id " + req.params.username
+        });
+      }
+    } else res.send(data);
+  });
 };

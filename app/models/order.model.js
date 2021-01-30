@@ -26,4 +26,37 @@ Order.create = (newOrder, result) => {
   });
 };
 
+Order.getAll = result => {
+  sql.query("SELECT * FROM orders", (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("orders: ", res);
+    result(null, res);
+  });
+};
+
+Order.findByOrderID = (orderID, result) => {
+  sql.query(`SELECT * FROM orders WHERE orderID = '${orderID}'`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found order: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+
+    // not found Customer with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
+
 module.exports = Order;

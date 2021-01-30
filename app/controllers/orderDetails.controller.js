@@ -23,3 +23,31 @@ exports.create = (req, res) => {
     else res.send(data);
   });
 };
+
+exports.findAll = (req, res) => {
+   OrderDetails.getAll((err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving orderDetails."
+      });
+    else res.send(data);
+  });
+};
+
+// Find a single Customer with a customerId
+exports.findOne = (req, res) => {
+   OrderDetails.findByOrderID(req.params.orderID, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found OrderDetails with id ${req.params.username}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving OrderDetails with id " + req.params.username
+        });
+      }
+    } else res.send(data);
+  });
+};
