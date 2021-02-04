@@ -1,0 +1,17 @@
+.admin__body {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #f1f5f5;
+}
+
+.admin__showcase {
+  flex: 0.7;
+}
+
+.admin__form {
+  height: 85vh;
+  position: sticky;
+  top: 13.5vh;
+  display: flex;
+  align-items: center;
+}
